@@ -1,0 +1,32 @@
+.header {
+  background-color: #3e206d;
+  width: 100vw;
+  height: 15vh;
+  position: fixed;
+}
+
+.logo {
+  color: #f0e3ff;
+  display: flex;
+}
+
+.big {
+  font-size: 3vw;
+}
+
+.small {
+  font-size: 2vw;
+  padding-top: 2.3vh;
+}
+
+.idximg {
+  width: 13vw;
+  height: 13vw;
+  margin-left: 2vw;
+  margin-top: 0.5vw;
+  border: 1px solid black;
+}
+
+.body {
+  padding-top: 8vw;
+}

@@ -5,55 +5,96 @@ import Image from './Image.jsx';
 import axios from 'axios';
 import listReactFiles from 'list-react-files'
 
-const START_OFFSET = 12;
+const START_OFFSET = 20;
 
 export default class Content extends React.Component {
 
   constructor(props) {
     super(props);
+    this.handleScroll = this.handleScroll.bind(this);
     this.state = {
       toShow: [],
       limit: START_OFFSET,
       offset: 0,
+      maxOffset: 0,
       gettingMoreImages: false
     }
   }
 
   getImages() {
+    console.log("getImages")
+    if(this.state.gettingMoreImages) return;
+    this.setState({ gettingMoreImages: true })
     let limit = this.state.limit;
     let offset = this.state.offset;
-    let gettingMoreImages = this.state.gettingMoreImages;
-    if(gettingMoreImages) return;
-    this.setState({ gettingMoreImages: true });
+    let maxOffset = this.state.maxOffset;
     axios.get('http://localhost:80/acoldone/images.php?limit='+limit+'&offset='+offset).then(res => {
       let data = res["data"];
       let toShow = this.state.toShow;
       offset += START_OFFSET;
+      maxOffset = (offset > maxOffset) ? offset : maxOffset;
       data.map(x => toShow.push(x));
       this.setState({
         toShow: toShow,
         offset: offset,
-        gettingMoreImages: false
+        gettingMoreImages: false,
+        maxOffset: maxOffset
       });
-    })
-  }
-  
-  componentDidMount() {
-    window.addEventListener('scroll', () => {
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        this.getImages();
-      } 
+      localStorage.setItem('toShow', JSON.stringify(toShow));
+      localStorage.setItem('offset', offset);
     });
+  }
 
-    if (document.body.scrollHeight <= window.innerHeight) {
+  componentWillUnmount() {
+    /*localStorage.setItem('toShow', []);
+    localStorage.setItem('offset', 0);*/
+  }
+
+  handleScroll() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      console.log("handle scroll")
       this.getImages();
+    } 
+  }
+
+  componentWillUnmount() {
+    console.log("anmoint")
+    window.removeEventListener('scroll', this.handleScroll, false);
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll, false);
+    window.onbeforeunload = function() {
+      localStorage.clear();
     }
 
-    console.log(document.body.scrollHeight)
+    let toShow = localStorage.getItem('toShow');
+    if(toShow == null || toShow == undefined || toShow == '') {
+      toShow = [];
+    } else {
+      toShow = JSON.parse(toShow);
+    }
 
-    const { limit } = this.state;
+    this.setState({
+        toShow: toShow,
+    });
+
+    let offset = Number(localStorage.getItem('offset'));
+
+    if(toShow.length == 0 && offset == 0) {
+      console.log("length 0")
+      this.getImages();
+      return;
+    } else if(offset != null) {
+      this.setState({
+        offset: offset,
+      });
+      console.log("hre")
+      return;
+    } 
+    console.log("end of mount")
     this.getImages();
-
+    
   }
 
 
@@ -68,8 +109,14 @@ export default class Content extends React.Component {
   nameAndBr(toBr, data) {
     return (
       <Fragment>
-        <Image name={data} />
-        {toBr ? <br /> : ' ' }
+        <div className="idxImageTopWrapper">
+          <div className="idxImageWrapper">
+            <Image name={data[0]}
+                  id={data[1]} />
+          </div>
+          <div className="separator">
+          </div>
+        </div>
       </Fragment>
     )
   }
@@ -79,19 +126,43 @@ export default class Content extends React.Component {
     if(toShow == undefined || !toShow) {
       return "";
     }
-    let toReturn = "";
-    return toShow.map((obj, i) => {
-                                    return (this.nameAndBr((i+1) % 4 == 0, obj["name"]));
-                      });
+    let toReturn = [];
+    let i = 0;
+    while(i < toShow.length) {
+      let four = [];
+      let j = 0;
+      while(j < 4 && i+j < toShow.length) {
+        four.push(
+          this.nameAndBr(1 % 4 == 0, [toShow[i+j]["name"], toShow[i+j]["id"]])
+        );
+        j++;
+      }
+      
+      toReturn.push(
+        <div className="four">
+          {four}
+        </div>
+      )
+      i += 4;
+    }
+    return (
+              <Fragment>
+                <div className="allWrapper">
+                  {toReturn}
+                </div>
+              </Fragment>
+    )
   }
 
   render() {
     const { toShow } = this.state;
     return (
         <Fragment>
-            Latest photos uploaded
+            Latest photos uploaded!@!@
             <br />
-            {this.showImages()}
+            <div className="allWrapper">
+              {this.showImages()}
+            </div>
         </Fragment>
       );
   }

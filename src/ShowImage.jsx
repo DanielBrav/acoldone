@@ -45,7 +45,7 @@ export default class ShowImage extends React.Component {
     if(src == '' || src == undefined) return "";
     return (
         <Fragment>
-          <Image name={src} />
+          <Image name={src} isBig />
         </Fragment>
       );
   }

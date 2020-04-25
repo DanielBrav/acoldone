@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
@@ -35,8 +35,7 @@ function App() {
       <div className="body">
         <Router>
           <Switch>
-            <Route path="/photo/:photoId" component={ShowImage}>
-            </Route>
+            <Route path="/photo/:photoId" component={ShowImage} />
             <Route path="/">
               <Content />
             </Route>

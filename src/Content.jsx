@@ -28,7 +28,7 @@ export default class Content extends React.Component {
     let limit = this.state.limit;
     let offset = this.state.offset;
     let maxOffset = this.state.maxOffset;
-    axios.get('http://localhost:80/acoldone/images.php?limit='+limit+'&offset='+offset).then(res => {
+    axios.get('http://www.danielbrav.mymsn.eu/images.php?limit='+limit+'&offset='+offset).then(res => {
       let data = res["data"];
       let toShow = this.state.toShow;
       offset += START_OFFSET;

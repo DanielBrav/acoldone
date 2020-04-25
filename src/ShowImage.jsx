@@ -29,7 +29,7 @@ export default class ShowImage extends React.Component {
 
   getImage() {
     let imageId = this.props.match.params.photoId;
-    axios.get('http://localhost:80/acoldone/images.php?image_id='+imageId).then(res => {
+    axios.get('http://www.danielbrav.mymsn.eu/images.php?image_id='+imageId).then(res => {
       console.log(res["data"][0]["name"]);
       this.setState({
           src: res["data"][0]["name"]
@@ -45,6 +45,7 @@ export default class ShowImage extends React.Component {
     if(src == '' || src == undefined) return "";
     return (
         <Fragment>
+          <div style={{ cursor: 'pointer' }} onClick={this.props.history.goBack}>Back</div>
           <Image name={src} isBig />
         </Fragment>
       );

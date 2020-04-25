@@ -45,6 +45,7 @@
 }
 
 .idximg:hover {
+  transform: scale(1.1, 1.1);
   opacity: 1;
 }
 

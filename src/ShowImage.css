@@ -1,25 +1,60 @@
-.header {
-  background-color: #3e206d;
-  width: 100vw;
-  height: 15vh;
-  position: fixed;
+.showImageWrapper {
+    max-width: 55vw !important;
 }
 
-.logo {
-  color: #f0e3ff;
-  display: flex;
+.description {
+    background-color: rgba(192,192,192,0.3);
+    font-size: 1.2vw;
+    padding-top: 0.5vw;
+    padding-bottom: 0.5vw;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    max-width: 44vw;
 }
 
-.big {
-  font-size: 3vw;
+.showImageMainWrapper {
+    display: flex;
+    padding-top: 0.5vw;
 }
 
-.small {
-  font-size: 2vw;
-  padding-top: 2.3vh;
+.commentsWrapper {
+    padding-left: 4vw;
+    width: 45vw;
+    max-width: 45vw;
+    padding-right: 2vw;
 }
 
+.taggedPeople {
+    background-color: rgba(192,192,192,0.5);
+    border-radius: 0.3vw;
+    font-size: 1.2vw;
+    color: #3e206d;
+    max-width: 45vw;
+    padding-left: 1vw;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+}
 
-.body {
-  padding-top: 8vw;
+.taggedPerson {
+    padding-right: 1.5vw;
+}
+
+.comments {
+    padding-top: 1.5vw;
+}
+
+.commentsTitle {
+    border-bottom: 0.2vw solid #3e206d;
+    font-size: 2vw;
+}
+
+.back {
+    cursor: pointer;
+    font-size: 1vw;
+    align-items: center;
+    justify-content: center;;
+    display: flex;
+    background-color: #d89cf6;
+    height: 3vw;
 }

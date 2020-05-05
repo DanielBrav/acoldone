@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import logo from './logo.svg';
 import './Content.css';
+import * as Consts from './Consts.jsx';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,6 +10,8 @@ import {
   Link,
   useParams
 } from "react-router-dom";
+
+
 
 export default class Image extends React.Component {
 
@@ -20,12 +24,11 @@ export default class Image extends React.Component {
     }
   }
 
-
-  componentDidMount() {
-    const images = require.context('./../photos', true);
-    const img = images('./' + this.props.name);
-    this.setState({ src: img });
-  }
+  /*componentDidMount() {
+    const imageName = this.props.name;
+    console.log("image name in Image.jsx: " + imageName);
+    this.setState({ src: Consts.IMAGE_HREF + 'photos/' + imageName });
+  }*/
 
   setStatus(status) {
     if(status == 2) {
@@ -37,7 +40,7 @@ export default class Image extends React.Component {
   }
 
   render() {
-    const name = this.props.name;
+    const name = this.props.name;// "IMG-20161112-WA0013.jpg";//
     const id = this.props.id;
     const isBig = this.props.isBig;
     const error = this.state.error;
@@ -45,7 +48,7 @@ export default class Image extends React.Component {
     const loading = this.state.loading;
     const imgClass = isBig ? "bigimg" : "idximg";
     const imageStyle = loading ? { display: "none" } : {};
-    const img = this.state.src;
+    const src = Consts.IMAGE_HREF + 'photos/' + name;
     let link = "./photo/" + id;
     return (
       <Fragment>
@@ -53,13 +56,13 @@ export default class Image extends React.Component {
           error ? "Error loading." :
             <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
          : ""}
-        {!isBig ? 
+        {!isBig && id ? 
         <Link to={link}>
-          <img src={img} style={imageStyle} className={imgClass} onLoad={() => this.setStatus(false)}
+          <img src={src} style={imageStyle} className={imgClass} onLoad={() => this.setStatus(false)}
                                                                  onError={() => this.setStatus(2)} />
         </Link> 
         :
-          <img src={img} style={imageStyle} className={imgClass} onLoad={() => this.setStatus(false)}
+          <img src={src} style={imageStyle} className={imgClass} onLoad={() => this.setStatus(false)}
                                                                  onError={() => this.setStatus(2)}/>
         }
       </Fragment>

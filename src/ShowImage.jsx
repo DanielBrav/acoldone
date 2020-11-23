@@ -24,7 +24,8 @@ export default class ShowImage extends React.Component {
     this.state = {
       src: '',
       description: '',
-      taggedPeople: []
+      taggedPeople: [],
+      taken: 0
     }
   }
 
@@ -38,7 +39,8 @@ export default class ShowImage extends React.Component {
       this.setState({
           src: res["data"][0]["name"],
           description: res["data"][0]["description"],
-          taggedPeople: res["data"][1] ? res["data"][1] : []
+          taggedPeople: res["data"][1] ? res["data"][1] : [],
+          taken: res["data"][0]["taken_date"]
       });
       
     })
@@ -48,6 +50,8 @@ export default class ShowImage extends React.Component {
     let imageId = this.props.match.params.photoId;
     let src = this.state.src;
     let description = this.state.description;
+    let taken = this.state.taken;
+    var t = new Date(taken*1000);
     if(imageId == undefined) return "";
     if(src == '' || src == undefined) return "";
     return (
@@ -68,6 +72,9 @@ export default class ShowImage extends React.Component {
               <div style={{ height: '0.3vw'}} />
               <div className="description">
                 {description}
+              </div>
+              <div className="description">
+                {t.getDay() + "/" + t.getMonth() + "/" + t.getFullYear()}
               </div>
               <div className="comments">
                 <div className="commentsTitle">

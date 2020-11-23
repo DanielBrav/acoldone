@@ -294,10 +294,10 @@ export default class App extends React.Component {
         <div className="header">
           <div className="logo">
             <div className="big">
-              <div>photos & shit</div>
+              <div>photos & stuff</div>
             </div>
             <div className="small">
-              The ultimate place to put photos. And shit.
+              The ultimate place to put photos. And stuff.
             </div>
           </div>  
           {/*
